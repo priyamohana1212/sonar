@@ -1,0 +1,94 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecomm-backend-deployment
+  namespace: mynamespace
+  labels:
+    app: ecomapideploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecomapipod
+  template:
+    metadata:
+      name: ecomapi-pod
+      labels:
+        app: ecomapipod
+    spec:
+      containers:
+      - name: ecomapicon
+        image: devopsagilitydev.azurecr.io/myrepo-backend:mytag
+        ports:
+        - containerPort: 8080
+        #resources:
+          #limits:
+            #cpu: "250m"
+            #memory: "250Mi"
+          #requests:
+            #cpu: "100m"
+            #memory: "100Mi"
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: ecomm-backend-service
+  namespace: mynamespace
+  labels:
+    app: ecomm-backend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: ecomapipod
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecomm-frontend-deployment
+  namespace: mynamespace
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      name: ecomm-frontend-pod
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: ecomm-frontend
+        image: devopsagilitydev.azurecr.io/myrepo-frontend:mytag
+        ports:
+        - containerPort: 3000
+        #resources:
+          #limits:
+            #cpu: "250m"
+            #memory: "250Mi"
+          #requests:
+            #cpu: "100m"
+            #memory: "100Mi"
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: ecomm-frontend-service
+  namespace: mynamespace
+  labels:
+    app: frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+  - targetPort: 3000
+    port: 80

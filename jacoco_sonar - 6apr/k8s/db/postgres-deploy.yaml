@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  namespace: mynamespace
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      name: postgres-pod
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres-container
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        #resources:
+          #limits:
+            #cpu: "250m"
+            #memory: "250Mi"
+          #requests:
+            #cpu: "100m"
+            #memory: "100Mi"
+        envFrom:
+        - configMapRef:
+            name: postgres-secret
+        volumeMounts:
+        - name: postgres-volume
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      -  name: postgres-volume
+         persistentVolumeClaim:
+           claimName: postgres-pvc

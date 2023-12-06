@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap 
+metadata:
+  name: postgres-secret
+  namespace: mynamespace
+  labels:
+    app: postgres
+data:
+  POSTGRES_USER: tensai
+  POSTGRES_PASSWORD: tensai@33
+  POSTGRES_DB: ecommerce
+  PGDATA: /var/lib/postgresql/data/db-files/
+
+
+# kubectl exec -it <POD NAME> -- psql -h <postres_service> -U postgres --password -p 5432 tensai
+# kubectl exec -it postgres-deployment-6d46c57765-lqhpc -n dev-saecom --bash
+# psql -Utensai --password ecommerce

@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecomm-backend-deployment
+  namespace: mynamespace
+  labels:
+    app: ecomapideploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecomapipod
+  template:
+    metadata:
+      name: ecomapi-pod
+      labels:
+        app: ecomapipod
+    spec:
+      containers:
+      - name: ecomapicon
+        image: devopsagilitydev.azurecr.io/myrepo-backend:mytag
+        ports:
+        - containerPort: 8080
+        #resources:
+          #limits:
+            #cpu: "250m"
+            #memory: "250Mi"
+          #requests:
+            #cpu: "100m"
+            #memory: "100Mi"

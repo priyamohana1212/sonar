@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecomm-frontend-deployment
+  namespace: mynamespace
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      name: ecomm-frontend-pod
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: ecomm-frontend
+        image: devopsagilitydev.azurecr.io/myrepo-frontend:mytag
+        ports:
+        - containerPort: 3000
+        #resources:
+          #limits:
+            #cpu: "250m"
+            #memory: "250Mi"
+          #requests:
+            #cpu: "100m"
+            #memory: "100Mi"

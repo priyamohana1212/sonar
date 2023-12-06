@@ -1,0 +1,7 @@
+FROM openjdk:11
+COPY ecomm-backend/target/shopz.jar /usr/src/app/
+RUN mkdir -p /usr/src/app/appimages
+#COPY appimages/* /usr/src/app/appimages/
+WORKDIR /usr/src/app
+EXPOSE 8080
+CMD java -jar shopz.jar
